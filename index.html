@@ -52,7 +52,6 @@
             opacity: 1;
         }
         
-        /* Hide number input spinners */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
@@ -81,7 +80,6 @@
                     <a href="#amenities" class="hover:text-gold-400 transition-colors text-sm uppercase tracking-wide font-medium">Dining</a>
                     <a href="#events" class="hover:text-gold-400 transition-colors text-sm uppercase tracking-wide font-medium">Events</a>
                     
-                    <!-- Login Button -->
                     <button onclick="openLoginModal()" class="text-gray-300 hover:text-white transition-colors text-xs border border-gray-600 px-3 py-1 rounded mx-2 bg-gray-800">
                         <i class="fa-solid fa-lock mr-1"></i> Staff Login
                     </button>
@@ -188,7 +186,7 @@
                         <div class="flex justify-between items-start mb-2">
                             <h4 class="font-serif text-2xl">Deluxe City View</h4>
                         </div>
-                        <p id="avail-Deluxe City View" class="text-xs font-bold text-green-600 mb-3"><i class="fa-solid fa-circle-check mr-1"></i> Checking availability...</p>
+                        <p id="avail-Deluxe City View" class="text-xs font-bold text-green-600 mb-3"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Checking availability...</p>
                         <p class="text-gray-500 text-sm mb-4">King Bed • AC • Work Desk</p>
                         <hr class="border-gray-100 mb-4 mt-auto">
                         <button id="btn-Deluxe City View" onclick="openBookingModal('Deluxe City View')" class="w-full bg-navy-900 text-white py-2 font-bold text-sm uppercase tracking-wider hover:bg-gold-500 disabled:opacity-50 disabled:cursor-not-allowed">Book Now</button>
@@ -205,7 +203,7 @@
                         <div class="flex justify-between items-start mb-2">
                             <h4 class="font-serif text-2xl">Club Room</h4>
                         </div>
-                        <p id="avail-Club Room" class="text-xs font-bold text-green-600 mb-3"><i class="fa-solid fa-circle-check mr-1"></i> Checking availability...</p>
+                        <p id="avail-Club Room" class="text-xs font-bold text-green-600 mb-3"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Checking availability...</p>
                         <p class="text-gray-500 text-sm mb-4">King Bed • Lounge Access • High Floor</p>
                         <hr class="border-gray-100 mb-4 mt-auto">
                         <button id="btn-Club Room" onclick="openBookingModal('Club Room')" class="w-full bg-navy-900 text-white py-2 font-bold text-sm uppercase tracking-wider hover:bg-gold-500 disabled:opacity-50 disabled:cursor-not-allowed">Book Now</button>
@@ -222,7 +220,7 @@
                         <div class="flex justify-between items-start mb-2">
                             <h4 class="font-serif text-2xl">Royal Suite</h4>
                         </div>
-                        <p id="avail-Royal Suite" class="text-xs font-bold text-green-600 mb-3"><i class="fa-solid fa-circle-check mr-1"></i> Checking availability...</p>
+                        <p id="avail-Royal Suite" class="text-xs font-bold text-green-600 mb-3"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Checking availability...</p>
                         <p class="text-gray-500 text-sm mb-4">2 Bedroom • 150m² • Jacuzzi</p>
                         <hr class="border-gray-100 mb-4 mt-auto">
                         <button id="btn-Royal Suite" onclick="openBookingModal('Royal Suite')" class="w-full bg-navy-900 text-white py-2 font-bold text-sm uppercase tracking-wider hover:bg-gold-500 disabled:opacity-50 disabled:cursor-not-allowed">Book Now</button>
@@ -364,495 +362,490 @@
     <!-- MODALS -->
 
     <!-- 1. LOGIN MODAL -->
-    <div id="loginModal" class="fixed inset-0 z-[80] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-90" onclick="closeLoginModal()"></div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-sm w-full relative z-10 p-6">
-                <div class="text-center mb-4">
-                    <i class="fa-solid fa-user-shield text-4xl text-navy-900 mb-2"></i>
-                    <h3 class="text-xl font-bold text-gray-800">Owner Verification</h3>
-                    <p class="text-xs text-gray-500">Hint: password is <b>pass</b></p>
-                </div>
-                <form onsubmit="handleLogin(event)">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Enter Password</label>
-                        <input type="password" id="adminPassword" class="border w-full py-2 px-3 text-gray-700 focus:border-gold-500 outline-none rounded" placeholder="••••" required>
-                    </div>
-                    <button type="submit" class="w-full bg-navy-900 text-white py-2 rounded hover:bg-gold-500 transition-colors">Login</button>
-                    <p id="loginError" class="text-red-500 text-xs mt-2 text-center hidden">Incorrect Password</p>
-                </form>
+    <div id="loginModal" class="fixed inset-0 z-[80] hidden flex items-center justify-center bg-gray-900 bg-opacity-90">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-sm w-full p-6">
+            <div class="text-center mb-4">
+                <i class="fa-solid fa-user-shield text-4xl text-navy-900 mb-2"></i>
+                <h3 class="text-xl font-bold text-gray-800">Owner Verification</h3>
+                <p class="text-xs text-gray-500">Hint: password is <b>pass</b></p>
             </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Enter Password</label>
+                    <input type="password" id="adminPassword" class="border w-full py-2 px-3 text-gray-700 focus:border-gold-500 outline-none rounded" placeholder="••••" required>
+                </div>
+                <button type="submit" class="w-full bg-navy-900 text-white py-2 rounded hover:bg-gold-500 transition-colors">Login</button>
+                <p id="loginError" class="text-red-500 text-xs mt-2 text-center hidden">Incorrect Password</p>
+            </form>
+            <button onclick="closeLoginModal()" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times"></i></button>
         </div>
     </div>
 
     <!-- 2. ADMIN PANEL MODAL -->
-    <div id="adminModal" class="fixed inset-0 z-[70] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-90" onclick="closeAdminPanel()"></div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-4xl w-full relative z-10 p-6 max-h-[90vh] overflow-y-auto">
-                <div class="flex justify-between items-center mb-6 border-b pb-4">
-                    <h3 class="text-2xl font-serif text-navy-900">Owner Dashboard</h3>
-                    <button onclick="closeAdminPanel()" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-times text-xl"></i></button>
-                </div>
-                
-                <!-- Section 1: Room Bookings -->
-                <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-gold-500 pl-3">🏨 Room Reservations</h4>
-                <div class="overflow-x-auto mb-8 bg-gray-50 rounded border">
-                    <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Guest</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Room</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Phone</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bookingTableBody"></tbody>
-                    </table>
-                    <div id="noBookingsMsg" class="text-center py-4 text-gray-500 hidden">No bookings.</div>
-                </div>
-
-                <!-- Section 2: Table Reservations -->
-                <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-purple-600 pl-3">🍽️ Table Reservations</h4>
-                <div class="overflow-x-auto mb-8 bg-gray-50 rounded border">
-                    <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Name</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date/Time</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Guests</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Paid</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBookingBody"></tbody>
-                    </table>
-                    <div id="noTableMsg" class="text-center py-4 text-gray-500 hidden">No table reservations.</div>
-                </div>
-
-                 <!-- Section 3: Event Bookings (NEW) -->
-                 <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-pink-600 pl-3">🎉 Party Hall Bookings</h4>
-                 <div class="overflow-x-auto mb-8 bg-gray-50 rounded border">
-                     <table class="min-w-full leading-normal">
-                         <thead>
-                             <tr>
-                                 <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
-                                 <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
-                                 <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Guests</th>
-                                 <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Paid Advance</th>
-                             </tr>
-                         </thead>
-                         <tbody id="eventBookingBody"></tbody>
-                     </table>
-                     <div id="noEventMsg" class="text-center py-4 text-gray-500 hidden">No event bookings.</div>
-                 </div>
-
-                <!-- Section 4: Kitchen Orders -->
-                <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-green-600 pl-3">🛎️ Room Service</h4>
-                <div class="overflow-x-auto bg-gray-50 rounded border">
-                    <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Room</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Items</th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="foodOrderTableBody"></tbody>
-                    </table>
-                    <div id="noFoodOrdersMsg" class="text-center py-4 text-gray-500 hidden">No kitchen orders.</div>
-                </div>
-
+    <div id="adminModal" class="fixed inset-0 z-[70] hidden flex items-center justify-center bg-gray-900 bg-opacity-90">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-5xl w-full p-6 max-h-[90vh] overflow-y-auto relative">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 class="text-2xl font-serif text-navy-900">Owner Dashboard (Cloud Database)</h3>
+                <button onclick="closeAdminPanel()" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
+            
+            <!-- Section 1: Room Bookings -->
+            <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-gold-500 pl-3">🏨 Room Reservations</h4>
+            <div class="overflow-x-auto mb-8 bg-gray-50 rounded border">
+                <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Guest</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Room</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Phone</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingTableBody"></tbody>
+                </table>
+                <div id="noBookingsMsg" class="text-center py-4 text-gray-500 hidden">No bookings.</div>
+            </div>
+
+            <!-- Section 2: Table Reservations -->
+            <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-purple-600 pl-3">🍽️ Table Reservations</h4>
+            <div class="overflow-x-auto mb-8 bg-gray-50 rounded border">
+                <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Name</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date/Time</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Guests</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Paid</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBookingBody"></tbody>
+                </table>
+                <div id="noTableMsg" class="text-center py-4 text-gray-500 hidden">No table reservations.</div>
+            </div>
+
+             <!-- Section 3: Event Bookings -->
+             <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-pink-600 pl-3">🎉 Party Hall Bookings</h4>
+             <div class="overflow-x-auto mb-8 bg-gray-50 rounded border">
+                 <table class="min-w-full leading-normal">
+                     <thead>
+                         <tr>
+                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
+                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
+                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Guests</th>
+                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Advance</th>
+                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                         </tr>
+                     </thead>
+                     <tbody id="eventBookingBody"></tbody>
+                 </table>
+                 <div id="noEventMsg" class="text-center py-4 text-gray-500 hidden">No event bookings.</div>
+             </div>
+
+            <!-- Section 4: Kitchen Orders -->
+            <h4 class="text-lg font-bold text-navy-900 mb-4 border-l-4 border-green-600 pl-3">🛎️ Room Service</h4>
+            <div class="overflow-x-auto bg-gray-50 rounded border">
+                <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Room</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Items</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total</th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="foodOrderTableBody"></tbody>
+                </table>
+                <div id="noFoodOrdersMsg" class="text-center py-4 text-gray-500 hidden">No kitchen orders.</div>
+            </div>
+
         </div>
     </div>
 
     <!-- 3. TABLE BOOKING MODAL -->
-    <div id="tableBookingModal" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-75" onclick="closeTableBookingModal()"></div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-md w-full relative z-10 p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-serif text-navy-900">Reserve a Table</h3>
-                    <button onclick="closeTableBookingModal()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-times text-xl"></i></button>
-                </div>
-                
-                <form onsubmit="handleTablePayment(event)">
-                    <div class="mb-3">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Name</label>
-                        <input type="text" id="tableName" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 mb-3">
-                        <div>
-                            <label class="block text-gray-700 text-xs font-bold mb-1">Date</label>
-                            <input type="date" id="tableDate" onchange="checkTableAvailability()" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-xs font-bold mb-1">Time</label>
-                            <input type="time" id="tableTime" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Guests</label>
-                        <select id="tableGuests" onchange="checkTableAvailability()" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none focus:border-gold-500">
-                            <option value="Couple">2 People (Couple)</option>
-                            <option value="Small Family">3-4 People (Family)</option>
-                            <option value="Large Group">Large Group (5+)</option>
-                        </select>
-                        <p id="tableAvailabilityDisplay" class="text-xs mt-2 font-bold text-gray-500 bg-gray-100 p-2 rounded">Select date to see availability</p>
-                    </div>
-
-                    <div class="bg-gray-100 p-4 rounded mb-4 border border-gray-200">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-gray-600 text-sm">Booking Fee</span>
-                            <span class="font-bold text-navy-900">₹ 500.00</span>
-                        </div>
-                        <div class="text-xs text-gray-500 text-center italic">
-                            (Prepayment required to confirm reservation)
-                        </div>
-                    </div>
-
-                    <button id="tableBookBtn" type="submit" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg flex justify-center items-center disabled:bg-gray-400 disabled:cursor-not-allowed">
-                        <i class="fa-solid fa-lock mr-2"></i> Pay ₹500 & Book
-                    </button>
-                </form>
+    <div id="tableBookingModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-gray-900 bg-opacity-75">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-serif text-navy-900">Reserve a Table</h3>
+                <button onclick="closeTableBookingModal()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
+            
+            <form onsubmit="handleTablePayment(event)">
+                <div class="mb-3">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Name</label>
+                    <input type="text" id="tableName" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
+                </div>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-gray-700 text-xs font-bold mb-1">Date</label>
+                        <input type="date" id="tableDate" onchange="checkTableAvailability()" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-xs font-bold mb-1">Time</label>
+                        <input type="time" id="tableTime" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Guests</label>
+                    <select id="tableGuests" onchange="checkTableAvailability()" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none focus:border-gold-500">
+                        <option value="Couple">2 People (Couple)</option>
+                        <option value="Small Family">3-4 People (Family)</option>
+                        <option value="Large Group">Large Group (5+)</option>
+                    </select>
+                    <p id="tableAvailabilityDisplay" class="text-xs mt-2 font-bold text-gray-500 bg-gray-100 p-2 rounded">Select date to see availability</p>
+                </div>
+
+                <div class="bg-gray-100 p-4 rounded mb-4 border border-gray-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-600 text-sm">Booking Fee</span>
+                        <span class="font-bold text-navy-900">₹ 500.00</span>
+                    </div>
+                    <div class="text-xs text-gray-500 text-center italic">
+                        (Prepayment required to confirm reservation)
+                    </div>
+                </div>
+
+                <button id="tableBookBtn" type="submit" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg flex justify-center items-center disabled:bg-gray-400 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-lock mr-2"></i> Pay ₹500 & Book
+                </button>
+            </form>
         </div>
     </div>
 
     <!-- 4. ROOM BOOKING MODAL -->
-    <div id="bookingModal" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-75" onclick="closeBookingModal()"></div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg w-full relative z-10 p-6">
-                <h3 class="text-2xl font-serif text-navy-900 mb-4">Confirm Stay</h3>
-                <form id="modalBookingForm" onsubmit="submitModalBooking(event)">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Room Type</label>
-                        <input type="text" id="modalRoomType" class="bg-gray-100 border w-full py-2 px-3 text-gray-700" readonly>
+    <div id="bookingModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-gray-900 bg-opacity-75">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg w-full p-6">
+            <h3 class="text-2xl font-serif text-navy-900 mb-4">Confirm Stay</h3>
+            <form id="modalBookingForm" onsubmit="submitModalBooking(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Room Type</label>
+                    <input type="text" id="modalRoomType" class="bg-gray-100 border w-full py-2 px-3 text-gray-700" readonly>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Guest Name</label>
+                    <input type="text" id="guestName" class="border w-full py-2 px-3 text-gray-700 focus:border-gold-500 outline-none" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Check In</label>
+                        <input type="date" id="checkInDate" class="border w-full py-2 px-3 text-gray-700" required>
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Guest Name</label>
-                        <input type="text" id="guestName" class="border w-full py-2 px-3 text-gray-700 focus:border-gold-500 outline-none" required>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
+                        <input type="tel" id="guestPhone" class="border w-full py-2 px-3 text-gray-700 focus:border-gold-500 outline-none" placeholder="10-digit Number" pattern="[0-9]{10}" maxlength="10" title="Please enter exactly 10 digits" required>
                     </div>
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Check In</label>
-                            <input type="date" id="checkInDate" class="border w-full py-2 px-3 text-gray-700" required>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
-                            <input type="tel" id="guestPhone" class="border w-full py-2 px-3 text-gray-700 focus:border-gold-500 outline-none" placeholder="10-digit Number" pattern="[0-9]{10}" maxlength="10" title="Please enter exactly 10 digits" required>
-                        </div>
-                    </div>
-                    <div class="flex justify-end space-x-3">
-                        <button type="button" onclick="closeBookingModal()" class="px-4 py-2 border rounded hover:bg-gray-100">Cancel</button>
-                        <button type="submit" class="px-4 py-2 bg-navy-900 text-white rounded hover:bg-gold-500">Book Pay at Hotel</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="closeBookingModal()" class="px-4 py-2 border rounded hover:bg-gray-100">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-navy-900 text-white rounded hover:bg-gold-500">Book Pay at Hotel</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <!-- 5. MENU MODAL (EXPANDED) -->
-    <div id="menuModal" class="fixed inset-0 z-[65] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" onclick="closeMenuModal()"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="flex justify-between items-center mb-6 border-b pb-4">
-                        <div>
-                            <h3 class="text-2xl font-serif text-navy-900">Room Service Menu</h3>
-                            <p class="text-xs text-gray-500">Select quantities to order.</p>
-                        </div>
-                        <button onclick="closeMenuModal()" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-times text-xl"></i></button>
+    <div id="menuModal" class="fixed inset-0 z-[65] hidden flex items-center justify-center bg-gray-900 bg-opacity-75 pt-4 pb-20">
+        <div class="inline-block align-bottom bg-white text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full h-auto max-h-[90vh] flex flex-col">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex-none border-b">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-2xl font-serif text-navy-900">Room Service Menu</h3>
+                        <p class="text-xs text-gray-500">Select quantities to order.</p>
                     </div>
-                    
-                    <form id="foodOrderForm" onsubmit="submitFoodOrder(event)">
-                        <div class="space-y-6 max-h-[50vh] overflow-y-auto pr-2 mb-4">
-                            
-                            <!-- Appetizers/Starters -->
-                            <div>
-                                <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Appetizers / Starters</h4>
-                                <div class="space-y-3">
-                                    <!-- Veg -->
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Paneer Tikka</p><p class="text-xs text-gray-500">₹ 320</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Paneer Tikka" data-price="320" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Mushroom 65</p><p class="text-xs text-gray-500">₹ 280</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Mushroom 65" data-price="280" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Crispy Fried Vegetables</p><p class="text-xs text-gray-500">₹ 260</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Crispy Fried Veg" data-price="260" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Hara Bhara Kebab</p><p class="text-xs text-gray-500">₹ 290</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Hara Bhara Kebab" data-price="290" placeholder="0">
-                                    </div>
-                                    <!-- Non-Veg -->
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Ajwaini Fish Tikka</p><p class="text-xs text-gray-500">₹ 450</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Ajwaini Fish Tikka" data-price="450" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Chicken 65</p><p class="text-xs text-gray-500">₹ 380</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chicken 65" data-price="380" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Gosht Seekh Kebab</p><p class="text-xs text-gray-500">₹ 480</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Gosht Seekh Kebab" data-price="480" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Chilli Chicken</p><p class="text-xs text-gray-500">₹ 360</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chilli Chicken" data-price="360" placeholder="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Main Course -->
-                            <div>
-                                <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Main Course (Lunch & Dinner)</h4>
-                                <div class="space-y-3">
-                                    <!-- Indian -->
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Paneer Butter Masala</p><p class="text-xs text-gray-500">₹ 350</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Paneer Butter Masala" data-price="350" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Dal Makhani</p><p class="text-xs text-gray-500">₹ 300</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Dal Makhani" data-price="300" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Chicken Biryani</p><p class="text-xs text-gray-500">₹ 450</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chicken Biryani" data-price="450" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Roti / Naan Basket</p><p class="text-xs text-gray-500">₹ 150</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Roti/Naan Basket" data-price="150" placeholder="0">
-                                    </div>
-                                    <!-- Continental/Asian -->
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Pasta Alfredo</p><p class="text-xs text-gray-500">₹ 380</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Pasta Alfredo" data-price="380" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Veg/Chicken Schezwan Noodles</p><p class="text-xs text-gray-500">₹ 320</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Schezwan Noodles" data-price="320" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Stir-Fried Vegetables</p><p class="text-xs text-gray-500">₹ 300</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Stir-Fried Veg" data-price="300" placeholder="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Accompaniments -->
-                            <div>
-                                <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Accompaniments</h4>
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Steamed Rice</p><p class="text-xs text-gray-500">₹ 180</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Steamed Rice" data-price="180" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Raita</p><p class="text-xs text-gray-500">₹ 120</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Raita" data-price="120" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Salad Bar</p><p class="text-xs text-gray-500">₹ 200</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Salad Bar" data-price="200" placeholder="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Breakfast -->
-                            <div>
-                                <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Breakfast</h4>
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Live Dosa/Idly Counter</p><p class="text-xs text-gray-500">₹ 200</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Live Dosa/Idly" data-price="200" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Poha</p><p class="text-xs text-gray-500">₹ 150</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Poha" data-price="150" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Eggs to Order</p><p class="text-xs text-gray-500">₹ 180</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Eggs to Order" data-price="180" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Fresh Fruits Platter</p><p class="text-xs text-gray-500">₹ 220</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Fresh Fruits" data-price="220" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Bread/Butter/Jam</p><p class="text-xs text-gray-500">₹ 120</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Bread/Butter/Jam" data-price="120" placeholder="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Desserts -->
-                            <div>
-                                <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Desserts</h4>
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Gulab Jamun</p><p class="text-xs text-gray-500">₹ 120</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Gulab Jamun" data-price="120" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Ice Cream</p><p class="text-xs text-gray-500">₹ 150</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Ice Cream" data-price="150" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Chocolate Brownie</p><p class="text-xs text-gray-500">₹ 220</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chocolate Brownie" data-price="220" placeholder="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Beverages -->
-                            <div>
-                                <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Beverages</h4>
-                                <div class="space-y-3">
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Fresh Juices</p><p class="text-xs text-gray-500">₹ 180</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Fresh Juices" data-price="180" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Masala Tea</p><p class="text-xs text-gray-500">₹ 100</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Masala Tea" data-price="100" placeholder="0">
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
-                                        <div class="flex-1"><p class="font-medium text-gray-800">Coffee</p><p class="text-xs text-gray-500">₹ 100</p></div>
-                                        <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Coffee" data-price="100" placeholder="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Order Summary Footer -->
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="text-gray-700 font-bold">Total Bill:</span>
-                                <span class="text-2xl font-bold text-navy-900" id="menuTotalDisplay">₹ 0</span>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Room Number <span class="text-red-500">*</span></label>
-                                <input type="text" id="orderRoomNumber" class="w-full border border-gray-300 p-2 rounded focus:border-gold-500 outline-none" placeholder="e.g. 302" required>
-                            </div>
-
-                            <button type="submit" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg">
-                                Place Room Service Order
-                            </button>
-                        </div>
-                    </form>
+                    <button onclick="closeMenuModal()" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-times text-xl"></i></button>
                 </div>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto px-4 py-4">
+                <form id="foodOrderForm" onsubmit="submitFoodOrder(event)">
+                    <div class="space-y-6">
+                        <!-- Appetizers/Starters -->
+                        <div>
+                            <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Appetizers / Starters</h4>
+                            <div class="space-y-3">
+                                <!-- Veg -->
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Paneer Tikka</p><p class="text-xs text-gray-500">₹ 320</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Paneer Tikka" data-price="320" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Mushroom 65</p><p class="text-xs text-gray-500">₹ 280</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Mushroom 65" data-price="280" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Crispy Fried Vegetables</p><p class="text-xs text-gray-500">₹ 260</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Crispy Fried Veg" data-price="260" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Hara Bhara Kebab</p><p class="text-xs text-gray-500">₹ 290</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Hara Bhara Kebab" data-price="290" placeholder="0">
+                                </div>
+                                <!-- Non-Veg -->
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Ajwaini Fish Tikka</p><p class="text-xs text-gray-500">₹ 450</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Ajwaini Fish Tikka" data-price="450" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Chicken 65</p><p class="text-xs text-gray-500">₹ 380</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chicken 65" data-price="380" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Gosht Seekh Kebab</p><p class="text-xs text-gray-500">₹ 480</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Gosht Seekh Kebab" data-price="480" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Chilli Chicken</p><p class="text-xs text-gray-500">₹ 360</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chilli Chicken" data-price="360" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Course -->
+                        <div>
+                            <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Main Course (Lunch & Dinner)</h4>
+                            <div class="space-y-3">
+                                <!-- Indian -->
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Paneer Butter Masala</p><p class="text-xs text-gray-500">₹ 350</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Paneer Butter Masala" data-price="350" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Dal Makhani</p><p class="text-xs text-gray-500">₹ 300</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Dal Makhani" data-price="300" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Chicken Biryani</p><p class="text-xs text-gray-500">₹ 450</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chicken Biryani" data-price="450" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Roti / Naan Basket</p><p class="text-xs text-gray-500">₹ 150</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Roti/Naan Basket" data-price="150" placeholder="0">
+                                </div>
+                                <!-- Continental/Asian -->
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Pasta Alfredo</p><p class="text-xs text-gray-500">₹ 380</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Pasta Alfredo" data-price="380" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Veg/Chicken Schezwan Noodles</p><p class="text-xs text-gray-500">₹ 320</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Schezwan Noodles" data-price="320" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Stir-Fried Vegetables</p><p class="text-xs text-gray-500">₹ 300</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Stir-Fried Veg" data-price="300" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accompaniments -->
+                        <div>
+                            <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Accompaniments</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Steamed Rice</p><p class="text-xs text-gray-500">₹ 180</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Steamed Rice" data-price="180" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Raita</p><p class="text-xs text-gray-500">₹ 120</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Raita" data-price="120" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Salad Bar</p><p class="text-xs text-gray-500">₹ 200</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Salad Bar" data-price="200" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Breakfast -->
+                        <div>
+                            <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Breakfast</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Live Dosa/Idly Counter</p><p class="text-xs text-gray-500">₹ 200</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Live Dosa/Idly" data-price="200" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Poha</p><p class="text-xs text-gray-500">₹ 150</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Poha" data-price="150" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Eggs to Order</p><p class="text-xs text-gray-500">₹ 180</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Eggs to Order" data-price="180" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Fresh Fruits Platter</p><p class="text-xs text-gray-500">₹ 220</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Fresh Fruits" data-price="220" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Bread/Butter/Jam</p><p class="text-xs text-gray-500">₹ 120</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Bread/Butter/Jam" data-price="120" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desserts -->
+                        <div>
+                            <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Desserts</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Gulab Jamun</p><p class="text-xs text-gray-500">₹ 120</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Gulab Jamun" data-price="120" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Ice Cream</p><p class="text-xs text-gray-500">₹ 150</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Ice Cream" data-price="150" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Chocolate Brownie</p><p class="text-xs text-gray-500">₹ 220</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Chocolate Brownie" data-price="220" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Beverages -->
+                        <div>
+                            <h4 class="text-gold-500 font-bold uppercase tracking-wider mb-3 sticky top-0 bg-white py-2">Beverages</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Fresh Juices</p><p class="text-xs text-gray-500">₹ 180</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Fresh Juices" data-price="180" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Masala Tea</p><p class="text-xs text-gray-500">₹ 100</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Masala Tea" data-price="100" placeholder="0">
+                                </div>
+                                <div class="flex justify-between items-center border-b border-dashed border-gray-200 pb-2">
+                                    <div class="flex-1"><p class="font-medium text-gray-800">Coffee</p><p class="text-xs text-gray-500">₹ 100</p></div>
+                                    <input type="number" min="0" class="menu-item-input w-16 border border-gray-300 rounded p-1 text-center outline-none" data-name="Coffee" data-price="100" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 flex flex-col border-t flex-none">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-gray-700 font-bold">Total Bill:</span>
+                    <span class="text-2xl font-bold text-navy-900" id="menuTotalDisplay">₹ 0</span>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Room Number <span class="text-red-500">*</span></label>
+                    <input type="text" id="orderRoomNumber" form="foodOrderForm" class="w-full border border-gray-300 p-2 rounded focus:border-gold-500 outline-none" placeholder="e.g. 302" required>
+                </div>
+
+                <button type="submit" form="foodOrderForm" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg">
+                    Place Room Service Order
+                </button>
             </div>
         </div>
     </div>
 
     <!-- 6. EVENT BOOKING MODAL -->
-    <div id="eventModal" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-75" onclick="closeEventModal()"></div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-md w-full relative z-10 p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-serif text-navy-900">Book Event Hall</h3>
-                    <button onclick="closeEventModal()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-times"></i></button>
+    <div id="eventModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-gray-900 bg-opacity-75">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-serif text-navy-900">Book Event Hall</h3>
+                <button onclick="closeEventModal()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <form onsubmit="handleEventBooking(event)">
+                <div class="mb-3">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Full Name</label>
+                    <input type="text" id="eventName" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
                 </div>
-                
-                <form onsubmit="handleEventBooking(event)">
-                    <div class="mb-3">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Full Name</label>
-                        <input type="text" id="eventName" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Contact Phone</label>
-                        <input type="tel" id="eventPhone" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3 mb-3">
-                        <div>
-                            <label class="block text-gray-700 text-xs font-bold mb-1">Event Type</label>
-                            <select id="eventType" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none">
-                                <option>Wedding</option>
-                                <option>Birthday</option>
-                                <option>Corporate</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-xs font-bold mb-1">Date</label>
-                            <input type="date" id="eventDate" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
-                        </div>
-                    </div>
-                     <div class="mb-4">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Est. Guests</label>
-                         <select id="eventGuests" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none">
-                            <option>50-100</option>
-                            <option>100-300</option>
-                            <option>300-500</option>
-                            <option>500+</option>
+                <div class="mb-3">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Contact Phone</label>
+                    <input type="tel" id="eventPhone" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
+                </div>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-gray-700 text-xs font-bold mb-1">Event Type</label>
+                        <select id="eventType" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none">
+                            <option>Wedding</option>
+                            <option>Birthday</option>
+                            <option>Corporate</option>
+                            <option>Other</option>
                         </select>
                     </div>
-
-                    <div class="bg-purple-50 p-4 rounded mb-4 border border-purple-200">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-gray-600 text-sm">Token Advance</span>
-                            <span class="font-bold text-navy-900">₹ 10,000</span>
-                        </div>
-                        <div class="text-xs text-gray-500 text-center italic">
-                            (Secure your date now)
-                        </div>
+                    <div>
+                        <label class="block text-gray-700 text-xs font-bold mb-1">Date</label>
+                        <input type="date" id="eventDate" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
                     </div>
+                </div>
+                 <div class="mb-4">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Est. Guests</label>
+                     <select id="eventGuests" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none">
+                        <option>50-100</option>
+                        <option>100-300</option>
+                        <option>300-500</option>
+                        <option>500+</option>
+                    </select>
+                </div>
 
-                    <button id="eventBookBtn" type="submit" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg flex justify-center items-center">
-                        <i class="fa-solid fa-lock mr-2"></i> Pay Advance & Book
-                    </button>
-                </form>
-            </div>
+                <div class="bg-purple-50 p-4 rounded mb-4 border border-purple-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-600 text-sm">Token Advance</span>
+                        <span class="font-bold text-navy-900">₹ 10,000</span>
+                    </div>
+                    <div class="text-xs text-gray-500 text-center italic">
+                        (Secure your date now)
+                    </div>
+                </div>
+
+                <button id="eventBookBtn" type="submit" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg flex justify-center items-center">
+                    <i class="fa-solid fa-lock mr-2"></i> Pay Advance & Book
+                </button>
+            </form>
         </div>
     </div>
 
     <!-- 7. WRITE REVIEW MODAL -->
-    <div id="reviewModal" class="fixed inset-0 z-[60] hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen px-4">
-            <div class="fixed inset-0 bg-gray-900 bg-opacity-75" onclick="closeReviewModal()"></div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-md w-full relative z-10 p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-serif text-navy-900">Write a Review</h3>
-                    <button onclick="closeReviewModal()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-times"></i></button>
+    <div id="reviewModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-gray-900 bg-opacity-75">
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-serif text-navy-900">Write a Review</h3>
+                <button onclick="closeReviewModal()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <form onsubmit="handleSubmitReview(event)">
+                <div class="mb-3">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Your Name</label>
+                    <input type="text" id="reviewName" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
                 </div>
-                
-                <form onsubmit="handleSubmitReview(event)">
-                    <div class="mb-3">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Your Name</label>
-                        <input type="text" id="reviewName" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" required>
-                    </div>
-                     <div class="mb-3">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Rating</label>
-                         <select id="reviewRating" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none text-gold-500 font-bold">
-                            <option value="5">★★★★★ (Excellent)</option>
-                            <option value="4">★★★★☆ (Good)</option>
-                            <option value="3">★★★☆☆ (Average)</option>
-                            <option value="2">★★☆☆☆ (Poor)</option>
-                            <option value="1">★☆☆☆☆ (Terrible)</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-xs font-bold mb-1">Comment</label>
-                        <textarea id="reviewText" rows="3" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" placeholder="Share your experience..."></textarea>
-                    </div>
+                 <div class="mb-3">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Rating</label>
+                     <select id="reviewRating" class="border w-full py-2 px-3 text-sm rounded bg-white outline-none text-gold-500 font-bold">
+                        <option value="5">★★★★★ (Excellent)</option>
+                        <option value="4">★★★★☆ (Good)</option>
+                        <option value="3">★★★☆☆ (Average)</option>
+                        <option value="2">★★☆☆☆ (Poor)</option>
+                        <option value="1">★☆☆☆☆ (Terrible)</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-xs font-bold mb-1">Comment</label>
+                    <textarea id="reviewText" rows="3" class="border w-full py-2 px-3 text-sm rounded outline-none focus:border-gold-500" placeholder="Share your experience..."></textarea>
+                </div>
 
-                    <button type="submit" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg">
-                        Submit Review
-                    </button>
-                </form>
+                <button type="submit" class="w-full bg-navy-900 text-white py-3 rounded font-bold uppercase tracking-wider hover:bg-gold-500 transition-colors shadow-lg">
+                    Submit Review
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DELETE CONFIRM MODAL -->
+    <div id="deleteModal" class="fixed inset-0 z-[90] hidden flex items-center justify-center bg-gray-900 bg-opacity-90">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <h3 class="text-lg font-bold text-navy-900 mb-2">Delete Record?</h3>
+            <p class="text-sm text-gray-600 mb-6">This action cannot be undone.</p>
+            <div class="flex justify-center space-x-4">
+                <button onclick="closeDeleteModal()" class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">Cancel</button>
+                <button onclick="confirmDelete()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
             </div>
         </div>
     </div>
@@ -866,61 +859,134 @@
         </div>
     </div>
 
-    <script>
-        // --- 1. GLOBAL & UI HELPERS ---
-        const today = new Date().toISOString().split('T')[0];
-        const nextYearDate = new Date(); nextYearDate.setFullYear(nextYearDate.getFullYear() + 1);
-        const maxDate = nextYearDate.toISOString().split('T')[0];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Apply restrictions to ALL date inputs including new eventDate
-        ['checkInDate', 'tableDate', 'mainCheckIn', 'mainCheckOut', 'eventDate'].forEach(id => {
-            const el = document.getElementById(id);
-            if(el) { el.min = today; el.max = maxDate; }
+        // --- FIREBASE CONFIG & INIT ---
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // --- AUTH ---
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth failed, retrying anonymously:", error);
+                await signInAnonymously(auth).catch(e => console.error("Anon auth failed", e));
+            }
+        };
+        initAuth();
+
+        // --- REFERENCES ---
+        const bookingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+        const tablesRef = collection(db, 'artifacts', appId, 'public', 'data', 'table_bookings');
+        const foodsRef = collection(db, 'artifacts', appId, 'public', 'data', 'food_orders');
+        const eventsRef = collection(db, 'artifacts', appId, 'public', 'data', 'event_bookings');
+        const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+
+        // --- LOCAL STATE ---
+        let allBookings = [];
+        let allTableBookings = [];
+        let allFoodOrders = [];
+        let allEventBookings = [];
+        let allReviews = [];
+
+        // --- LISTENERS ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Authenticated. Attaching listeners...");
+
+                onSnapshot(bookingsRef, (snapshot) => {
+                    allBookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    updateRoomAvailabilityUI();
+                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
+                }, (error) => console.error("Bookings error:", error));
+
+                onSnapshot(tablesRef, (snapshot) => {
+                    allTableBookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
+                }, (error) => console.error("Tables error:", error));
+
+                onSnapshot(foodsRef, (snapshot) => {
+                    allFoodOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
+                }, (error) => console.error("Food error:", error));
+
+                onSnapshot(eventsRef, (snapshot) => {
+                    allEventBookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
+                }, (error) => console.error("Events error:", error));
+
+                onSnapshot(reviewsRef, (snapshot) => {
+                    allReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderReviews();
+                }, (error) => console.error("Reviews error:", error));
+            }
         });
 
-        // Widget Logic
-        const mainCheckIn = document.getElementById('mainCheckIn');
-        const mainCheckOut = document.getElementById('mainCheckOut');
-        if(mainCheckIn && mainCheckOut) {
-            mainCheckIn.addEventListener('change', function() { mainCheckOut.min = this.value; });
-        }
-
-        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-        function showToast(title, msg) {
-            const toast = document.getElementById('successToast');
-            document.getElementById('toastMessage').innerHTML = `<h4 class="font-bold">${title}</h4><p class="text-sm">${msg}</p>`;
-            toast.classList.remove('translate-y-32');
-            setTimeout(() => toast.classList.add('translate-y-32'), 4000);
-        }
-
-        // --- 2. DATA STORAGE ---
+        // --- HELPERS ---
         const ROOM_LIMITS = { 'Deluxe City View': 10, 'Club Room': 7, 'Royal Suite': 20 };
         const TABLE_LIMITS = { 'Couple': 20, 'Small Family': 15, 'Large Group': 12 };
 
-        let allBookings = JSON.parse(localStorage.getItem('hotelBookings')) || [];
-        let allTableBookings = JSON.parse(localStorage.getItem('hotelTableBookings')) || [];
-        let allFoodOrders = JSON.parse(localStorage.getItem('hotelFoodOrders')) || [];
-        
-        // NEW: Events & Reviews Storage
-        let allEventBookings = JSON.parse(localStorage.getItem('hotelEventBookings')) || [];
-        let allReviews = JSON.parse(localStorage.getItem('hotelReviews')) || [];
+        window.updateRoomAvailabilityUI = function() {
+            Object.keys(ROOM_LIMITS).forEach(type => {
+                const booked = allBookings.filter(b => b.room === type).length;
+                const available = ROOM_LIMITS[type] - booked;
+                const badge = document.getElementById(`avail-${type}`);
+                const btn = document.getElementById(`btn-${type}`);
+                if (badge && btn) {
+                    if (available <= 0) {
+                        badge.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i> Sold Out!`;
+                        badge.className = "text-xs font-bold text-red-500 mb-3";
+                        btn.disabled = true; btn.innerText = "Sold Out"; btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                    } else if (available <= 2) {
+                        badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-orange-500 mr-1"></i> Only ${available} rooms left!`;
+                        badge.className = "text-xs font-bold text-orange-500 mb-3 animate-pulse";
+                        btn.disabled = false; btn.innerText = "Book Now"; btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    } else {
+                        badge.innerHTML = `<i class="fa-solid fa-circle-check text-green-500 mr-1"></i> Available`;
+                        badge.className = "text-xs font-bold text-green-600 mb-3";
+                        btn.disabled = false; btn.innerText = "Book Now"; btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    }
+                }
+            });
+        };
 
-        // Initial Review Seeding
-        if(allReviews.length === 0) {
-            allReviews = [
-                { name: "John D.", rating: 5, text: "Absolutely stunning property. The breakfast buffet is world-class!" },
-                { name: "Meera K.", rating: 5, text: "Perfect wedding venue. The staff took care of everything." },
-                { name: "Robert S.", rating: 4, text: "Great rooms, but slightly delayed room service during peak hours." }
-            ];
-            localStorage.setItem('hotelReviews', JSON.stringify(allReviews));
-        }
+        window.checkTableAvailability = function() {
+            const date = document.getElementById('tableDate').value;
+            const guestType = document.getElementById('tableGuests').value;
+            const display = document.getElementById('tableAvailabilityDisplay');
+            const btn = document.getElementById('tableBookBtn');
+            
+            if (!date) return;
+            const dbDate = new Date(date).toLocaleDateString('en-GB');
+            const existingBookings = allTableBookings.filter(t => t.date === dbDate && t.guestType === guestType).length;
+            const available = (TABLE_LIMITS[guestType] || 5) - existingBookings;
+            
+            if (available > 0) {
+                display.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${available} tables left`;
+                display.className = "text-xs mt-2 font-bold text-green-700 bg-green-100 p-2 rounded";
+                btn.disabled = false; btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            } else {
+                display.innerHTML = `<i class="fa-solid fa-xmark mr-1"></i> Fully Booked`;
+                display.className = "text-xs mt-2 font-bold text-red-700 bg-red-100 p-2 rounded";
+                btn.disabled = true; btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+            }
+        };
 
-        // --- 3. REVIEWS LOGIC ---
-        function renderReviews() {
+        window.renderReviews = function() {
             const grid = document.getElementById('reviewGrid');
             grid.innerHTML = '';
-            // Show last 3 reviews
-            allReviews.slice(-3).reverse().forEach(r => {
+            allReviews.slice().reverse().slice(0, 3).forEach(r => {
                 let stars = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
                 grid.innerHTML += `
                 <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
@@ -936,122 +1002,187 @@
                     <p class="text-gray-600 text-sm italic">"${r.text}"</p>
                 </div>`;
             });
-        }
-        renderReviews(); // Init
+        };
 
-        function openReviewModal() { document.getElementById('reviewModal').classList.remove('hidden'); }
-        function closeReviewModal() { document.getElementById('reviewModal').classList.add('hidden'); }
-        
-        function handleSubmitReview(e) {
+        // --- WRITE ACTIONS ---
+        window.submitModalBooking = async function(e) {
             e.preventDefault();
-            const review = {
-                name: document.getElementById('reviewName').value,
-                rating: parseInt(document.getElementById('reviewRating').value),
-                text: document.getElementById('reviewText').value
-            };
-            allReviews.push(review);
-            localStorage.setItem('hotelReviews', JSON.stringify(allReviews));
-            closeReviewModal();
-            e.target.reset();
-            renderReviews();
-            showToast("Review Posted", "Thank you for your feedback!");
-        }
+            const phone = document.getElementById('guestPhone').value;
+            if (!/^\d{10}$/.test(phone)) { window.showToast("Error", "Invalid Phone Number"); return; }
+            if (!auth.currentUser) { window.showToast("Error", "Connecting... try again"); return; }
 
-        // --- 4. EVENT BOOKING LOGIC ---
-        function openEventModal() { document.getElementById('eventModal').classList.remove('hidden'); }
-        function closeEventModal() { document.getElementById('eventModal').classList.add('hidden'); }
+            await addDoc(bookingsRef, { 
+                name: document.getElementById('guestName').value, 
+                room: document.getElementById('modalRoomType').value, 
+                phone: phone, 
+                checkIn: new Date(document.getElementById('checkInDate').value).toLocaleDateString('en-GB'),
+                timestamp: new Date().toISOString()
+            });
+            window.closeBookingModal(); e.target.reset(); window.showToast("Confirmed", "Booking saved.");
+        };
 
-        function handleEventBooking(e) {
+        window.handleTablePayment = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('tableBookBtn'); 
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...'; 
+            btn.disabled = true;
+
+            const sel = document.getElementById('tableGuests');
+            await addDoc(tablesRef, { 
+                name: document.getElementById('tableName').value, 
+                date: new Date(document.getElementById('tableDate').value).toLocaleDateString('en-GB'), 
+                time: document.getElementById('tableTime').value, 
+                guests: sel.options[sel.selectedIndex].text, 
+                guestType: sel.value, 
+                amount: 500,
+                timestamp: new Date().toISOString()
+            });
+            
+            window.closeTableBookingModal(); btn.innerHTML = originalText; btn.disabled = false; e.target.reset(); 
+            window.showToast("Table Reserved", "Saved to database.");
+        };
+
+        window.submitFoodOrder = async function(e) {
+            e.preventDefault();
+            let items=[], total=0; 
+            document.querySelectorAll('.menu-item-input').forEach(x => { 
+                let q=parseInt(x.value)||0; 
+                if(q>0) { items.push(`${q}x ${x.dataset.name}`); total+=q*parseInt(x.dataset.price); } 
+            });
+            if(total===0) { window.showToast("Error", "Select items first"); return; }
+            
+            await addDoc(foodsRef, { 
+                room: document.getElementById('orderRoomNumber').value, 
+                items: items.join(', '), 
+                total: total,
+                timestamp: new Date().toISOString()
+            });
+            window.closeMenuModal(); e.target.reset(); document.getElementById('menuTotalDisplay').innerText="₹ 0"; 
+            window.showToast("Order Sent", "Kitchen notified.");
+        };
+
+        window.handleEventBooking = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('eventBookBtn');
-            const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
             btn.disabled = true;
 
-            setTimeout(() => {
-                const newEvent = {
-                    name: document.getElementById('eventName').value,
-                    phone: document.getElementById('eventPhone').value,
-                    type: document.getElementById('eventType').value,
-                    date: document.getElementById('eventDate').value,
-                    guests: document.getElementById('eventGuests').value,
-                    paid: 10000
-                };
-                allEventBookings.push(newEvent);
-                localStorage.setItem('hotelEventBookings', JSON.stringify(allEventBookings));
-                
-                closeEventModal();
-                btn.innerHTML = originalText; 
-                btn.disabled = false;
-                e.target.reset();
-                showToast("Event Booked!", "Advance of ₹10,000 received.");
-            }, 2000);
-        }
-
-        // --- 5. EXISTING LOGIC (Rooms, Tables, Food) ---
-        function getBookedRoomCount(type) { return allBookings.filter(b => b.room === type).length; }
-        
-        function updateRoomAvailabilityUI() {
-            Object.keys(ROOM_LIMITS).forEach(type => {
-                const booked = getBookedRoomCount(type);
-                const available = ROOM_LIMITS[type] - booked;
-                const badge = document.getElementById(`avail-${type}`);
-                const btn = document.getElementById(`btn-${type}`);
-                if (badge && btn) {
-                    if (available <= 0) {
-                        badge.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 mr-1"></i> Sold Out!`;
-                        badge.className = "text-xs font-bold text-red-500 mb-3";
-                        btn.disabled = true; btn.innerText = "Sold Out"; btn.classList.add('bg-gray-400', 'cursor-not-allowed');
-                    } else if (available === 1) {
-                        badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-orange-500 mr-1"></i> Only 1 room left!`;
-                        badge.className = "text-xs font-bold text-orange-500 mb-3 animate-pulse";
-                    } else {
-                        badge.innerHTML = `<i class="fa-solid fa-circle-check text-green-500 mr-1"></i> ${available} rooms available`;
-                        badge.className = "text-xs font-bold text-green-600 mb-3";
-                    }
-                }
+            await addDoc(eventsRef, {
+                name: document.getElementById('eventName').value,
+                phone: document.getElementById('eventPhone').value,
+                type: document.getElementById('eventType').value,
+                date: document.getElementById('eventDate').value,
+                guests: document.getElementById('eventGuests').value,
+                paid: 10000,
+                timestamp: new Date().toISOString()
             });
-        }
-        updateRoomAvailabilityUI();
+            window.closeEventModal(); btn.innerHTML = '<i class="fa-solid fa-lock mr-2"></i> Pay Advance & Book'; btn.disabled = false;
+            e.target.reset(); window.showToast("Event Booked!", "Saved to database.");
+        };
 
-        // Check Table Logic
-        function checkTableAvailability() {
-            const date = document.getElementById('tableDate').value;
-            const guestType = document.getElementById('tableGuests').value;
-            const display = document.getElementById('tableAvailabilityDisplay');
-            const btn = document.getElementById('tableBookBtn');
-            if (!date) return;
-            const existingBookings = allTableBookings.filter(t => t.date === new Date(date).toLocaleDateString('en-GB') && t.guestType === guestType).length;
-            const available = (TABLE_LIMITS[guestType] || 5) - existingBookings;
-            if (available > 0) {
-                display.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${available} tables left`;
-                display.className = "text-xs mt-2 font-bold text-green-700 bg-green-100 p-2 rounded";
-                btn.disabled = false; btn.classList.remove('bg-gray-400');
-            } else {
-                display.innerHTML = `<i class="fa-solid fa-xmark mr-1"></i> Fully Booked`;
-                display.className = "text-xs mt-2 font-bold text-red-700 bg-red-100 p-2 rounded";
-                btn.disabled = true; btn.classList.add('bg-gray-400');
-            }
-        }
-
-        // --- 6. ADMIN PANEL LOGIC (Updated for Events) ---
-        function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); document.getElementById('loginError').classList.add('hidden'); document.getElementById('adminPassword').value = ''; }
-        function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
-        function handleLogin(e) {
+        window.handleSubmitReview = async function(e) {
             e.preventDefault();
-            if (document.getElementById('adminPassword').value === 'pass') { closeLoginModal(); openAdminPanel(); }
-            else { document.getElementById('loginError').classList.remove('hidden'); }
-        }
+            await addDoc(reviewsRef, {
+                name: document.getElementById('reviewName').value,
+                rating: parseInt(document.getElementById('reviewRating').value),
+                text: document.getElementById('reviewText').value,
+                timestamp: new Date().toISOString()
+            });
+            window.closeReviewModal(); e.target.reset(); window.showToast("Review Posted", "Saved permanently.");
+        };
 
-        function openAdminPanel() {
-            // ... (Existing Room/Table rendering code same as before, condensed for space) ...
+        // --- DELETE ACTIONS ---
+        let deleteTarget = null;
+        window.deleteEntry = function(collectionName, id) {
+            deleteTarget = { collectionName, id };
+            document.getElementById('deleteModal').classList.remove('hidden');
+        };
+        
+        window.confirmDelete = async function() {
+            if(!deleteTarget) return;
+            const { collectionName, id } = deleteTarget;
+            const colRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
+            await deleteDoc(doc(colRef, id));
+            window.closeDeleteModal();
+            window.showToast("Deleted", "Record removed permanently.");
+            deleteTarget = null;
+        };
+        window.closeDeleteModal = () => { document.getElementById('deleteModal').classList.add('hidden'); deleteTarget = null; };
+
+        // --- UI HELPERS ---
+        const today = new Date().toISOString().split('T')[0];
+        const maxDate = new Date(); maxDate.setFullYear(maxDate.getFullYear() + 1);
+        const maxDateStr = maxDate.toISOString().split('T')[0];
+        ['checkInDate', 'tableDate', 'mainCheckIn', 'mainCheckOut', 'eventDate'].forEach(id => {
+            const el = document.getElementById(id); if(el) { el.min = today; el.max = maxDateStr; }
+        });
+        const mIn = document.getElementById('mainCheckIn');
+        const mOut = document.getElementById('mainCheckOut');
+        if(mIn && mOut) mIn.addEventListener('change', () => mOut.min = mIn.value);
+
+        window.toggleMobileMenu = () => document.getElementById('mobile-menu').classList.toggle('hidden');
+        window.showToast = (title, msg) => {
+            const t = document.getElementById('successToast');
+            document.getElementById('toastMessage').innerHTML = `<h4 class="font-bold">${title}</h4><p class="text-sm">${msg}</p>`;
+            t.classList.remove('translate-y-32'); setTimeout(() => t.classList.add('translate-y-32'), 4000);
+        };
+
+        window.openBookingModal = (t='Standard') => { document.getElementById('modalRoomType').value=t; document.getElementById('bookingModal').classList.remove('hidden'); };
+        window.closeBookingModal = () => document.getElementById('bookingModal').classList.add('hidden');
+        window.handleBookingSearch = (e) => { e.preventDefault(); window.openBookingModal('Best Rate'); };
+
+        window.openTableBookingModal = () => { document.getElementById('tableBookingModal').classList.remove('hidden'); document.getElementById('tableDate').value = ""; window.checkTableAvailability(); };
+        window.closeTableBookingModal = () => document.getElementById('tableBookingModal').classList.add('hidden');
+
+        window.openMenuModal = () => document.getElementById('menuModal').classList.remove('hidden');
+        window.closeMenuModal = () => document.getElementById('menuModal').classList.add('hidden');
+        
+        window.openEventModal = () => document.getElementById('eventModal').classList.remove('hidden');
+        window.closeEventModal = () => document.getElementById('eventModal').classList.add('hidden');
+
+        window.openReviewModal = () => document.getElementById('reviewModal').classList.remove('hidden');
+        window.closeReviewModal = () => document.getElementById('reviewModal').classList.add('hidden');
+
+        window.openLoginModal = () => { document.getElementById('loginModal').classList.remove('hidden'); document.getElementById('loginError').classList.add('hidden'); document.getElementById('adminPassword').value = ''; };
+        window.closeLoginModal = () => document.getElementById('loginModal').classList.add('hidden');
+        window.handleLogin = (e) => { e.preventDefault(); if (document.getElementById('adminPassword').value === 'pass') { window.closeLoginModal(); window.openAdminPanel(); } else { document.getElementById('loginError').classList.remove('hidden'); } };
+
+        window.openAdminPanel = () => {
             const bookingBody = document.getElementById('bookingTableBody'); bookingBody.innerHTML = '';
-            allBookings.slice().reverse().forEach(b => bookingBody.innerHTML += `<tr><td class="px-5 py-3 border-b text-sm font-bold">${b.name}</td><td class="px-5 py-3 border-b text-sm">${b.room}</td><td class="px-5 py-3 border-b text-sm">${b.phone}</td><td class="px-5 py-3 border-b text-sm">${b.checkIn}</td></tr>`);
+            if(allBookings.length === 0) document.getElementById('noBookingsMsg').classList.remove('hidden');
+            else {
+                document.getElementById('noBookingsMsg').classList.add('hidden');
+                allBookings.slice().reverse().forEach(b => {
+                    bookingBody.innerHTML += `<tr>
+                        <td class="px-5 py-3 border-b text-sm font-bold">${b.name}</td>
+                        <td class="px-5 py-3 border-b text-sm">${b.room}</td>
+                        <td class="px-5 py-3 border-b text-sm">${b.phone}</td>
+                        <td class="px-5 py-3 border-b text-sm">${b.checkIn}</td>
+                        <td class="px-5 py-3 border-b text-sm">
+                            <button onclick="deleteEntry('bookings', '${b.id}')" class="text-red-500 hover:text-red-700 bg-red-100 p-2 rounded transition-colors"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+                });
+            }
             
             const tableBody = document.getElementById('tableBookingBody'); tableBody.innerHTML = '';
-            allTableBookings.slice().reverse().forEach(t => tableBody.innerHTML += `<tr><td class="px-5 py-3 border-b text-sm font-bold">${t.name}</td><td class="px-5 py-3 border-b text-sm">${t.date} @ ${t.time}</td><td class="px-5 py-3 border-b text-sm">${t.guests}</td><td class="px-5 py-3 border-b text-sm">₹ ${t.amount}</td></tr>`);
+            if(allTableBookings.length === 0) document.getElementById('noTableMsg').classList.remove('hidden');
+            else {
+                document.getElementById('noTableMsg').classList.add('hidden');
+                allTableBookings.slice().reverse().forEach(t => {
+                    tableBody.innerHTML += `<tr>
+                        <td class="px-5 py-3 border-b text-sm font-bold">${t.name}</td>
+                        <td class="px-5 py-3 border-b text-sm">${t.date} @ ${t.time}</td>
+                        <td class="px-5 py-3 border-b text-sm">${t.guests}</td>
+                        <td class="px-5 py-3 border-b text-sm">₹ ${t.amount}</td>
+                        <td class="px-5 py-3 border-b text-sm">
+                            <button onclick="deleteEntry('table_bookings', '${t.id}')" class="text-red-500 hover:text-red-700 bg-red-100 p-2 rounded transition-colors"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+                });
+            }
 
-            // NEW: Event Bookings
             const eventBody = document.getElementById('eventBookingBody'); eventBody.innerHTML = '';
             if(allEventBookings.length === 0) document.getElementById('noEventMsg').classList.remove('hidden');
             else {
@@ -1062,63 +1193,40 @@
                         <td class="px-5 py-3 border-b text-sm">${e.date}</td>
                         <td class="px-5 py-3 border-b text-sm">${e.guests} pax</td>
                         <td class="px-5 py-3 border-b text-sm"><span class="bg-pink-100 text-pink-900 px-2 py-1 rounded text-xs font-bold">₹ 10,000</span></td>
+                        <td class="px-5 py-3 border-b text-sm">
+                            <button onclick="deleteEntry('event_bookings', '${e.id}')" class="text-red-500 hover:text-red-700 bg-red-100 p-2 rounded transition-colors"><i class="fa-solid fa-trash"></i></button>
+                        </td>
                     </tr>`;
                 });
             }
 
             const foodBody = document.getElementById('foodOrderTableBody'); foodBody.innerHTML = '';
-            allFoodOrders.slice().reverse().forEach(f => foodBody.innerHTML += `<tr><td class="px-5 py-3 border-b text-sm"><span class="font-bold bg-gold-400 text-white px-2 py-1 rounded">RM ${f.room}</span></td><td class="px-5 py-3 border-b text-sm text-xs">${f.items}</td><td class="px-5 py-3 border-b text-sm font-bold">₹ ${f.total}</td></tr>`);
+            if(allFoodOrders.length === 0) document.getElementById('noFoodOrdersMsg').classList.remove('hidden');
+            else {
+                document.getElementById('noFoodOrdersMsg').classList.add('hidden');
+                allFoodOrders.slice().reverse().forEach(f => {
+                    foodBody.innerHTML += `<tr>
+                        <td class="px-5 py-3 border-b text-sm"><span class="font-bold bg-gold-400 text-white px-2 py-1 rounded">RM ${f.room}</span></td>
+                        <td class="px-5 py-3 border-b text-sm text-xs">${f.items}</td>
+                        <td class="px-5 py-3 border-b text-sm font-bold">₹ ${f.total}</td>
+                        <td class="px-5 py-3 border-b text-sm">
+                            <button onclick="deleteEntry('food_orders', '${f.id}')" class="text-red-500 hover:text-red-700 bg-red-100 p-2 rounded transition-colors"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+                });
+            }
 
             document.getElementById('adminModal').classList.remove('hidden');
-        }
-        function closeAdminPanel() { document.getElementById('adminModal').classList.add('hidden'); }
+        };
+        window.closeAdminPanel = () => document.getElementById('adminModal').classList.add('hidden');
 
-        // Standard Modal Helpers
-        function openBookingModal(t='Standard') { document.getElementById('modalRoomType').value=t; document.getElementById('bookingModal').classList.remove('hidden'); }
-        function closeBookingModal() { document.getElementById('bookingModal').classList.add('hidden'); }
-        function handleBookingSearch(e) { e.preventDefault(); openBookingModal('Best Rate'); }
-        
-        function submitModalBooking(e) {
-            e.preventDefault();
-            const phone = document.getElementById('guestPhone').value;
-            if (!/^\d{10}$/.test(phone)) { alert("Invalid Phone"); return; }
-            const booking = { name: document.getElementById('guestName').value, room: document.getElementById('modalRoomType').value, phone: phone, checkIn: new Date(document.getElementById('checkInDate').value).toLocaleDateString('en-GB') };
-            allBookings.push(booking); localStorage.setItem('hotelBookings', JSON.stringify(allBookings));
-            closeBookingModal(); e.target.reset(); showToast("Confirmed", "Pay at hotel."); updateRoomAvailabilityUI();
-        }
-
-        // Table Helpers
-        function openTableBookingModal() { document.getElementById('tableBookingModal').classList.remove('hidden'); document.getElementById('tableDate').value = ""; checkTableAvailability(); }
-        function closeTableBookingModal() { document.getElementById('tableBookingModal').classList.add('hidden'); }
-        function handleTablePayment(e) {
-            e.preventDefault();
-            const btn = document.getElementById('tableBookBtn'); btn.innerHTML = 'Processing...'; btn.disabled = true;
-            setTimeout(() => {
-                const sel = document.getElementById('tableGuests');
-                allTableBookings.push({ name: document.getElementById('tableName').value, date: new Date(document.getElementById('tableDate').value).toLocaleDateString('en-GB'), time: document.getElementById('tableTime').value, guests: sel.options[sel.selectedIndex].text, guestType: sel.value, amount: 500 });
-                localStorage.setItem('hotelTableBookings', JSON.stringify(allTableBookings));
-                closeTableBookingModal(); btn.innerHTML = 'Pay & Book'; btn.disabled = false; e.target.reset(); showToast("Table Reserved", "Paid ₹500.");
-            }, 1000);
-        }
-
-        // Food Helpers
-        function openMenuModal() { document.getElementById('menuModal').classList.remove('hidden'); }
-        function closeMenuModal() { document.getElementById('menuModal').classList.add('hidden'); }
         document.querySelectorAll('.menu-item-input').forEach(i => i.addEventListener('input', () => {
             let t=0; document.querySelectorAll('.menu-item-input').forEach(x => t+=(parseInt(x.value)||0)*parseInt(x.dataset.price));
             document.getElementById('menuTotalDisplay').innerText = "₹ " + t;
         }));
-        function submitFoodOrder(e) {
-            e.preventDefault();
-            let items=[], total=0; document.querySelectorAll('.menu-item-input').forEach(x => { let q=parseInt(x.value)||0; if(q>0) { items.push(`${q}x ${x.dataset.name}`); total+=q*parseInt(x.dataset.price); } });
-            if(total===0) { alert("Select items"); return; }
-            allFoodOrders.push({ room: document.getElementById('orderRoomNumber').value, items: items.join(', '), total });
-            localStorage.setItem('hotelFoodOrders', JSON.stringify(allFoodOrders));
-            closeMenuModal(); e.target.reset(); document.getElementById('menuTotalDisplay').innerText="₹ 0"; showToast("Order Sent", "Kitchen notified.");
-        }
 
-        // ESC Key
-        document.addEventListener('keydown', (e) => { if(e.key==="Escape") { closeBookingModal(); closeAdminPanel(); closeMenuModal(); closeLoginModal(); closeTableBookingModal(); closeEventModal(); closeReviewModal(); } });
+        document.addEventListener('keydown', (e) => { if(e.key==="Escape") { window.closeBookingModal(); window.closeAdminPanel(); window.closeMenuModal(); window.closeLoginModal(); window.closeTableBookingModal(); window.closeEventModal(); window.closeReviewModal(); window.closeDeleteModal(); } });
+
     </script>
 </body>
 </html>
