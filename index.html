@@ -866,11 +866,6 @@
 
         // =====================================================================================
         // [IMPORTANT] REAL HOTEL CONFIGURATION
-        // To make this work like a real hotel website across different devices:
-        // 1. Go to https://console.firebase.google.com/
-        // 2. Create a new project (e.g., "MyHotelApp")
-        // 3. Add a Web App to get your config
-        // 4. Paste the config object below replacing 'null'
         // =====================================================================================
         
         const USER_FIREBASE_CONFIG = {
@@ -882,16 +877,6 @@
           appId: "1:584294794268:web:ae5ad9fca85471fe570bd9",
           measurementId: "G-KRPXLCTKZD"
         };
-        
-        // Example format:
-        // const USER_FIREBASE_CONFIG = {
-        //   apiKey: "AIzaSyD...",
-        //   authDomain: "myhotel.firebaseapp.com",
-        //   projectId: "myhotel",
-        //   storageBucket: "myhotel.appspot.com",
-        //   messagingSenderId: "123...",
-        //   appId: "1:123..."
-        // };
 
         // --- DATABASE LOGIC (HYBRID: CLOUD OR LOCAL) ---
         let dbType = 'local'; // default
@@ -926,7 +911,15 @@
                     if (dbType === 'cloud-canvas' && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                         await signInWithCustomToken(auth, __initial_auth_token);
                     } else {
-                        await signInAnonymously(auth);
+                        // CLOUD CUSTOM (GITHUB) FLOW
+                        try {
+                            await signInAnonymously(auth);
+                        } catch (authError) {
+                            console.error("Anonymous Auth Failed:", authError);
+                            // It usually fails because it's not enabled in console
+                            alert("FIREBASE SETUP ERROR:\n\nPlease enable 'Anonymous' sign-in provider in your Firebase Console.\n\nAuthentication -> Sign-in method -> Anonymous\n\n(See Screenshot 4 you shared - click 'Get started' there!)");
+                            throw authError; // Trigger fallback to local
+                        }
                     }
 
                     // Setup References
@@ -949,6 +942,12 @@
                 } catch (e) {
                     console.error("Cloud Connection Failed:", e);
                     dbType = 'local'; // Fallback if config is bad
+                    // Visual indicator of failure
+                    const statusEl = document.getElementById('dbMode');
+                    if(statusEl) {
+                        statusEl.innerText = '(Offline - Check Console)';
+                        statusEl.className = "text-xs font-sans font-normal ml-2 bg-red-100 text-red-800 px-2 py-1 rounded";
+                    }
                 }
             } else {
                 console.log("No Cloud Config Found. Using Local Storage Mode.");
