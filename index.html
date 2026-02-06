@@ -385,7 +385,7 @@
     <div id="adminModal" class="fixed inset-0 z-[70] hidden flex items-center justify-center bg-gray-900 bg-opacity-90">
         <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-5xl w-full p-6 max-h-[90vh] overflow-y-auto relative">
             <div class="flex justify-between items-center mb-6 border-b pb-4">
-                <h3 class="text-2xl font-serif text-navy-900">Owner Dashboard (Cloud Database)</h3>
+                <h3 class="text-2xl font-serif text-navy-900">Owner Dashboard <span id="dbMode" class="text-xs font-sans font-normal ml-2 bg-gray-200 px-2 py-1 rounded"></span></h3>
                 <button onclick="closeAdminPanel()" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-times text-xl"></i></button>
             </div>
             
@@ -864,34 +864,108 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- FIREBASE CONFIG & INIT ---
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        // --- AUTH ---
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Auth failed, retrying anonymously:", error);
-                await signInAnonymously(auth).catch(e => console.error("Anon auth failed", e));
-            }
+        // =====================================================================================
+        // [IMPORTANT] REAL HOTEL CONFIGURATION
+        // To make this work like a real hotel website across different devices:
+        // 1. Go to https://console.firebase.google.com/
+        // 2. Create a new project (e.g., "MyHotelApp")
+        // 3. Add a Web App to get your config
+        // 4. Paste the config object below replacing 'null'
+        // =====================================================================================
+        
+        const USER_FIREBASE_CONFIG = {
+          apiKey: "AIzaSyAZ8o7cT1n3tVidpvmCg7gd5TmagkJ8BPs",
+          authDomain: "my-hotel-820ba.firebaseapp.com",
+          projectId: "my-hotel-820ba",
+          storageBucket: "my-hotel-820ba.firebasestorage.app",
+          messagingSenderId: "584294794268",
+          appId: "1:584294794268:web:ae5ad9fca85471fe570bd9",
+          measurementId: "G-KRPXLCTKZD"
         };
-        initAuth();
+        
+        // Example format:
+        // const USER_FIREBASE_CONFIG = {
+        //   apiKey: "AIzaSyD...",
+        //   authDomain: "myhotel.firebaseapp.com",
+        //   projectId: "myhotel",
+        //   storageBucket: "myhotel.appspot.com",
+        //   messagingSenderId: "123...",
+        //   appId: "1:123..."
+        // };
 
-        // --- REFERENCES ---
-        const bookingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
-        const tablesRef = collection(db, 'artifacts', appId, 'public', 'data', 'table_bookings');
-        const foodsRef = collection(db, 'artifacts', appId, 'public', 'data', 'food_orders');
-        const eventsRef = collection(db, 'artifacts', appId, 'public', 'data', 'event_bookings');
-        const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+        // --- DATABASE LOGIC (HYBRID: CLOUD OR LOCAL) ---
+        let dbType = 'local'; // default
+        let app, auth, db, appId;
+        
+        // References (will be initialized if cloud is active)
+        let bookingsRef, tablesRef, foodsRef, eventsRef, reviewsRef;
+
+        async function initApp() {
+            let config;
+            
+            // 1. Try Canvas Environment Config
+            if (typeof __firebase_config !== 'undefined') {
+                config = JSON.parse(__firebase_config);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                dbType = 'cloud-canvas';
+            } 
+            // 2. Try User Provided Config (For VS Code / Real Hosting)
+            else if (USER_FIREBASE_CONFIG) {
+                config = USER_FIREBASE_CONFIG;
+                appId = 'my-hotel-app'; // Use a static ID for user apps
+                dbType = 'cloud-custom';
+            }
+
+            if (config) {
+                try {
+                    app = initializeApp(config);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                    
+                    // Auth Flow
+                    if (dbType === 'cloud-canvas' && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    // Setup References
+                    const rootPath = dbType === 'cloud-canvas' ? ['artifacts', appId, 'public', 'data'] : ['hotels', 'royal_bengaluru'];
+                    
+                    // Helper to create collection ref based on path structure
+                    const getCol = (name) => {
+                        if (dbType === 'cloud-canvas') return collection(db, 'artifacts', appId, 'public', 'data', name);
+                        return collection(db, 'hotels', 'royal_bengaluru', name);
+                    };
+
+                    bookingsRef = getCol('bookings');
+                    tablesRef = getCol('table_bookings');
+                    foodsRef = getCol('food_orders');
+                    eventsRef = getCol('event_bookings');
+                    reviewsRef = getCol('reviews');
+
+                    console.log(`Connected to Cloud DB (${dbType})`);
+                    setupCloudListeners();
+                } catch (e) {
+                    console.error("Cloud Connection Failed:", e);
+                    dbType = 'local'; // Fallback if config is bad
+                }
+            } else {
+                console.log("No Cloud Config Found. Using Local Storage Mode.");
+            }
+
+            // Update UI to show mode status
+            const statusEl = document.getElementById('dbMode');
+            if(statusEl) {
+                statusEl.innerText = dbType.startsWith('cloud') ? '(Cloud Synced)' : '(Local Device Only)';
+                statusEl.className = dbType.startsWith('cloud') ? "text-xs font-sans font-normal ml-2 bg-green-100 text-green-800 px-2 py-1 rounded" : "text-xs font-sans font-normal ml-2 bg-orange-100 text-orange-800 px-2 py-1 rounded";
+            }
+
+            // If local, load initial data from localStorage
+            if (dbType === 'local') loadLocalData();
+        }
+
+        initApp();
 
         // --- LOCAL STATE ---
         let allBookings = [];
@@ -900,40 +974,105 @@
         let allEventBookings = [];
         let allReviews = [];
 
-        // --- LISTENERS ---
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("Authenticated. Attaching listeners...");
+        // --- DATA HANDLERS (UNIFIED) ---
 
-                onSnapshot(bookingsRef, (snapshot) => {
-                    allBookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    updateRoomAvailabilityUI();
-                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
-                }, (error) => console.error("Bookings error:", error));
+        // 1. ADD DATA
+        window.saveToDB = async function(type, data) {
+            const timestamp = new Date().toISOString();
+            const payload = { ...data, timestamp };
 
-                onSnapshot(tablesRef, (snapshot) => {
-                    allTableBookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
-                }, (error) => console.error("Tables error:", error));
-
-                onSnapshot(foodsRef, (snapshot) => {
-                    allFoodOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
-                }, (error) => console.error("Food error:", error));
-
-                onSnapshot(eventsRef, (snapshot) => {
-                    allEventBookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    if(!document.getElementById('adminModal').classList.contains('hidden')) openAdminPanel();
-                }, (error) => console.error("Events error:", error));
-
-                onSnapshot(reviewsRef, (snapshot) => {
-                    allReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderReviews();
-                }, (error) => console.error("Reviews error:", error));
+            if (dbType.startsWith('cloud')) {
+                let ref;
+                if(type === 'bookings') ref = bookingsRef;
+                if(type === 'tables') ref = tablesRef;
+                if(type === 'foods') ref = foodsRef;
+                if(type === 'events') ref = eventsRef;
+                if(type === 'reviews') ref = reviewsRef;
+                
+                if(ref) await addDoc(ref, payload);
+            } else {
+                // Local Storage Logic
+                payload.id = 'loc_' + Date.now(); // Generate fake ID
+                
+                if(type === 'bookings') allBookings.push(payload);
+                if(type === 'tables') allTableBookings.push(payload);
+                if(type === 'foods') allFoodOrders.push(payload);
+                if(type === 'events') allEventBookings.push(payload);
+                if(type === 'reviews') allReviews.push(payload);
+                
+                saveLocalToStorage(); // Persist to browser
+                refreshUI(); // Manually trigger UI update since no snapshot listener
             }
-        });
+        };
 
-        // --- HELPERS ---
+        // 2. DELETE DATA
+        window.deleteFromDB = async function(type, id) {
+            if (dbType.startsWith('cloud')) {
+                let ref;
+                // Map type name to actual collection logic
+                // Simplified for brevity, logic mimics saveToDB selection
+                const getCol = (name) => {
+                    if (dbType === 'cloud-canvas') return collection(db, 'artifacts', appId, 'public', 'data', name);
+                    return collection(db, 'hotels', 'royal_bengaluru', name);
+                };
+                
+                // Map the simple "type" string passed from UI to collection name
+                let colName = '';
+                if(type === 'bookings') colName = 'bookings';
+                if(type === 'table_bookings') colName = 'table_bookings';
+                if(type === 'food_orders') colName = 'food_orders';
+                if(type === 'event_bookings') colName = 'event_bookings';
+                
+                if(colName) await deleteDoc(doc(getCol(colName), id));
+            } else {
+                // Local Storage Delete
+                if(type === 'bookings') allBookings = allBookings.filter(x => x.id !== id);
+                if(type === 'table_bookings') allTableBookings = allTableBookings.filter(x => x.id !== id);
+                if(type === 'food_orders') allFoodOrders = allFoodOrders.filter(x => x.id !== id);
+                if(type === 'event_bookings') allEventBookings = allEventBookings.filter(x => x.id !== id);
+                
+                saveLocalToStorage();
+                refreshUI();
+            }
+        };
+
+        // --- CLOUD LISTENERS ---
+        function setupCloudListeners() {
+            onSnapshot(bookingsRef, (snap) => { allBookings = snap.docs.map(d => ({id:d.id, ...d.data()})); refreshUI(); });
+            onSnapshot(tablesRef, (snap) => { allTableBookings = snap.docs.map(d => ({id:d.id, ...d.data()})); refreshUI(); });
+            onSnapshot(foodsRef, (snap) => { allFoodOrders = snap.docs.map(d => ({id:d.id, ...d.data()})); refreshUI(); });
+            onSnapshot(eventsRef, (snap) => { allEventBookings = snap.docs.map(d => ({id:d.id, ...d.data()})); refreshUI(); });
+            onSnapshot(reviewsRef, (snap) => { allReviews = snap.docs.map(d => ({id:d.id, ...d.data()})); refreshUI(); });
+        }
+
+        // --- LOCAL STORAGE HELPERS ---
+        function loadLocalData() {
+            allBookings = JSON.parse(localStorage.getItem('hotel_bookings') || '[]');
+            allTableBookings = JSON.parse(localStorage.getItem('hotel_tables') || '[]');
+            allFoodOrders = JSON.parse(localStorage.getItem('hotel_foods') || '[]');
+            allEventBookings = JSON.parse(localStorage.getItem('hotel_events') || '[]');
+            allReviews = JSON.parse(localStorage.getItem('hotel_reviews') || '[]');
+            refreshUI();
+        }
+
+        function saveLocalToStorage() {
+            localStorage.setItem('hotel_bookings', JSON.stringify(allBookings));
+            localStorage.setItem('hotel_tables', JSON.stringify(allTableBookings));
+            localStorage.setItem('hotel_foods', JSON.stringify(allFoodOrders));
+            localStorage.setItem('hotel_events', JSON.stringify(allEventBookings));
+            localStorage.setItem('hotel_reviews', JSON.stringify(allReviews));
+        }
+
+        // --- UI UPDATER (Runs on any data change) ---
+        function refreshUI() {
+            updateRoomAvailabilityUI();
+            renderReviews();
+            // If admin panel is open, refresh it
+            if(!document.getElementById('adminModal').classList.contains('hidden')) window.openAdminPanel();
+        }
+
+        // --- FEATURE LOGIC ---
+
         const ROOM_LIMITS = { 'Deluxe City View': 10, 'Club Room': 7, 'Royal Suite': 20 };
         const TABLE_LIMITS = { 'Couple': 20, 'Small Family': 15, 'Large Group': 12 };
 
@@ -986,7 +1125,12 @@
         window.renderReviews = function() {
             const grid = document.getElementById('reviewGrid');
             grid.innerHTML = '';
-            allReviews.slice().reverse().slice(0, 3).forEach(r => {
+            const displayReviews = allReviews.length ? allReviews : [
+                {name: 'John D.', rating: 5, text: 'Amazing stay! (Sample)'},
+                {name: 'Sarah M.', rating: 4, text: 'Great food. (Sample)'}
+            ];
+            
+            displayReviews.slice().reverse().slice(0, 3).forEach(r => {
                 let stars = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
                 grid.innerHTML += `
                 <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
@@ -1004,19 +1148,18 @@
             });
         };
 
-        // --- WRITE ACTIONS ---
+        // --- FORM SUBMISSIONS ---
+        
         window.submitModalBooking = async function(e) {
             e.preventDefault();
             const phone = document.getElementById('guestPhone').value;
-            if (!/^\d{10}$/.test(phone)) { window.showToast("Error", "Invalid Phone Number"); return; }
-            if (!auth.currentUser) { window.showToast("Error", "Connecting... try again"); return; }
-
-            await addDoc(bookingsRef, { 
+            if (!/^\d{10}$/.test(phone)) { window.showToast("Error", "Invalid Phone"); return; }
+            
+            await window.saveToDB('bookings', {
                 name: document.getElementById('guestName').value, 
                 room: document.getElementById('modalRoomType').value, 
                 phone: phone, 
-                checkIn: new Date(document.getElementById('checkInDate').value).toLocaleDateString('en-GB'),
-                timestamp: new Date().toISOString()
+                checkIn: new Date(document.getElementById('checkInDate').value).toLocaleDateString('en-GB')
             });
             window.closeBookingModal(); e.target.reset(); window.showToast("Confirmed", "Booking saved.");
         };
@@ -1029,18 +1172,17 @@
             btn.disabled = true;
 
             const sel = document.getElementById('tableGuests');
-            await addDoc(tablesRef, { 
+            await window.saveToDB('tables', { 
                 name: document.getElementById('tableName').value, 
                 date: new Date(document.getElementById('tableDate').value).toLocaleDateString('en-GB'), 
                 time: document.getElementById('tableTime').value, 
                 guests: sel.options[sel.selectedIndex].text, 
                 guestType: sel.value, 
-                amount: 500,
-                timestamp: new Date().toISOString()
+                amount: 500
             });
             
             window.closeTableBookingModal(); btn.innerHTML = originalText; btn.disabled = false; e.target.reset(); 
-            window.showToast("Table Reserved", "Saved to database.");
+            window.showToast("Table Reserved", "Saved successfully.");
         };
 
         window.submitFoodOrder = async function(e) {
@@ -1052,11 +1194,10 @@
             });
             if(total===0) { window.showToast("Error", "Select items first"); return; }
             
-            await addDoc(foodsRef, { 
+            await window.saveToDB('foods', { 
                 room: document.getElementById('orderRoomNumber').value, 
                 items: items.join(', '), 
-                total: total,
-                timestamp: new Date().toISOString()
+                total: total
             });
             window.closeMenuModal(); e.target.reset(); document.getElementById('menuTotalDisplay').innerText="₹ 0"; 
             window.showToast("Order Sent", "Kitchen notified.");
@@ -1068,49 +1209,44 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
             btn.disabled = true;
 
-            await addDoc(eventsRef, {
+            await window.saveToDB('events', {
                 name: document.getElementById('eventName').value,
                 phone: document.getElementById('eventPhone').value,
                 type: document.getElementById('eventType').value,
                 date: document.getElementById('eventDate').value,
                 guests: document.getElementById('eventGuests').value,
-                paid: 10000,
-                timestamp: new Date().toISOString()
+                paid: 10000
             });
             window.closeEventModal(); btn.innerHTML = '<i class="fa-solid fa-lock mr-2"></i> Pay Advance & Book'; btn.disabled = false;
-            e.target.reset(); window.showToast("Event Booked!", "Saved to database.");
+            e.target.reset(); window.showToast("Event Booked!", "Saved successfully.");
         };
 
         window.handleSubmitReview = async function(e) {
             e.preventDefault();
-            await addDoc(reviewsRef, {
+            await window.saveToDB('reviews', {
                 name: document.getElementById('reviewName').value,
                 rating: parseInt(document.getElementById('reviewRating').value),
-                text: document.getElementById('reviewText').value,
-                timestamp: new Date().toISOString()
+                text: document.getElementById('reviewText').value
             });
-            window.closeReviewModal(); e.target.reset(); window.showToast("Review Posted", "Saved permanently.");
+            window.closeReviewModal(); e.target.reset(); window.showToast("Review Posted", "Thank you!");
         };
 
-        // --- DELETE ACTIONS ---
+        // --- DELETE LOGIC ---
         let deleteTarget = null;
-        window.deleteEntry = function(collectionName, id) {
-            deleteTarget = { collectionName, id };
+        window.deleteEntry = function(type, id) {
+            deleteTarget = { type, id };
             document.getElementById('deleteModal').classList.remove('hidden');
         };
-        
         window.confirmDelete = async function() {
             if(!deleteTarget) return;
-            const { collectionName, id } = deleteTarget;
-            const colRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
-            await deleteDoc(doc(colRef, id));
+            await window.deleteFromDB(deleteTarget.type, deleteTarget.id);
             window.closeDeleteModal();
-            window.showToast("Deleted", "Record removed permanently.");
-            deleteTarget = null;
+            window.showToast("Deleted", "Record removed.");
         };
         window.closeDeleteModal = () => { document.getElementById('deleteModal').classList.add('hidden'); deleteTarget = null; };
 
         // --- UI HELPERS ---
+        // Date Limits
         const today = new Date().toISOString().split('T')[0];
         const maxDate = new Date(); maxDate.setFullYear(maxDate.getFullYear() + 1);
         const maxDateStr = maxDate.toISOString().split('T')[0];
@@ -1121,6 +1257,7 @@
         const mOut = document.getElementById('mainCheckOut');
         if(mIn && mOut) mIn.addEventListener('change', () => mOut.min = mIn.value);
 
+        // Standard Modal Open/Close
         window.toggleMobileMenu = () => document.getElementById('mobile-menu').classList.toggle('hidden');
         window.showToast = (title, msg) => {
             const t = document.getElementById('successToast');
@@ -1149,6 +1286,7 @@
         window.handleLogin = (e) => { e.preventDefault(); if (document.getElementById('adminPassword').value === 'pass') { window.closeLoginModal(); window.openAdminPanel(); } else { document.getElementById('loginError').classList.remove('hidden'); } };
 
         window.openAdminPanel = () => {
+            // Render Room Bookings
             const bookingBody = document.getElementById('bookingTableBody'); bookingBody.innerHTML = '';
             if(allBookings.length === 0) document.getElementById('noBookingsMsg').classList.remove('hidden');
             else {
@@ -1166,6 +1304,7 @@
                 });
             }
             
+            // Render Table Bookings
             const tableBody = document.getElementById('tableBookingBody'); tableBody.innerHTML = '';
             if(allTableBookings.length === 0) document.getElementById('noTableMsg').classList.remove('hidden');
             else {
@@ -1183,6 +1322,7 @@
                 });
             }
 
+            // Render Events
             const eventBody = document.getElementById('eventBookingBody'); eventBody.innerHTML = '';
             if(allEventBookings.length === 0) document.getElementById('noEventMsg').classList.remove('hidden');
             else {
@@ -1200,6 +1340,7 @@
                 });
             }
 
+            // Render Food
             const foodBody = document.getElementById('foodOrderTableBody'); foodBody.innerHTML = '';
             if(allFoodOrders.length === 0) document.getElementById('noFoodOrdersMsg').classList.remove('hidden');
             else {
@@ -1220,6 +1361,11 @@
         };
         window.closeAdminPanel = () => document.getElementById('adminModal').classList.add('hidden');
 
+        // Initial UI Render
+        renderReviews();
+        updateRoomAvailabilityUI();
+
+        // Listeners
         document.querySelectorAll('.menu-item-input').forEach(i => i.addEventListener('input', () => {
             let t=0; document.querySelectorAll('.menu-item-input').forEach(x => t+=(parseInt(x.value)||0)*parseInt(x.dataset.price));
             document.getElementById('menuTotalDisplay').innerText = "₹ " + t;
